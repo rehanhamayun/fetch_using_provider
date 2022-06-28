@@ -1,8 +1,13 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CartProvider with ChangeNotifier {
   // Initialization
+
+//List for list of products name etc.
+
   int _counter = 0;
 
   int get counter => _counter;
@@ -16,6 +21,7 @@ class CartProvider with ChangeNotifier {
 
     prefs.setInt('cart_item', _counter);
     prefs.setDouble('total_price', _totalPrice);
+
     notifyListeners();
   }
 

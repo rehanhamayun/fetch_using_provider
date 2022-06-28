@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_functions/cart_provider.dart';
+import 'package:provider_functions/cart_items_price.dart';
 import 'package:provider_functions/home_page.dart';
 
 void main() {
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: const HomePage(),
+          home: HomePage(),
         );
       }),
     );
