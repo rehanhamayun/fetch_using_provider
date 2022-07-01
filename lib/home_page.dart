@@ -4,6 +4,7 @@ import 'package:badges/badges.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_functions/cart_provider.dart';
 import 'package:provider_functions/cart_items_price.dart';
+import 'package:provider_functions/cartlist_provider.dart';
 import 'package:provider_functions/db_helper.dart';
 
 class HomePage extends StatefulWidget {
@@ -55,6 +56,9 @@ class _HomePageState extends State<HomePage> {
     // PROVIDER DEPENDENCY INJECTION
 
     final cart = Provider.of<CartProvider>(context);
+    final cartList = Provider.of<CartList>(context);
+
+    //print(cart.selectedProducts());
 
     return Scaffold(
       backgroundColor: Colors.white,
@@ -142,7 +146,8 @@ class _HomePageState extends State<HomePage> {
                         ),
                         onPressed: () {
                           cart.addCounter();
-                          //cart.counter;
+                          cartList.addProduct(productName[index]);
+
                           cart.addTotalPrice(productPrice[index].toDouble());
                         },
                         child: Text("Add to cart"),

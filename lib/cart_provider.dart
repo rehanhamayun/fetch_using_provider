@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -29,12 +27,14 @@ class CartProvider with ChangeNotifier {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     prefs.getInt('cart_item') ?? 0;
     prefs.getDouble('total_price') ?? 0.0;
+    prefs.getString('product_Name') ?? [];
 
     notifyListeners();
   }
 
   void addCounter() {
     _counter++;
+
     _setPrefItems();
     notifyListeners();
   }

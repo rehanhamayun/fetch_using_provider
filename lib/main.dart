@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_functions/cart_provider.dart';
-import 'package:provider_functions/cart_items_price.dart';
+
+import 'package:provider_functions/cartlist_provider.dart';
 import 'package:provider_functions/home_page.dart';
 
 void main() {
@@ -14,8 +15,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => CartProvider(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider<CartProvider>(
+          create: (_) => CartProvider(),
+        ),
+        ChangeNotifierProvider<CartList>(
+          create: (_) => CartList(),
+        ),
+      ],
       child: Builder(builder: (BuildContext context) {
         return MaterialApp(
           title: 'Flutter Demo',
