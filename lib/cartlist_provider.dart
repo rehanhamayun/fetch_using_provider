@@ -9,4 +9,9 @@ class CartList with ChangeNotifier {
     _selectedProduct.add(productName);
     notifyListeners();
   }
+
+  void removeProduct(String productName) {
+    _selectedProduct.remove(productName);
+    notifyListeners();
+  }
 }

@@ -142,6 +142,7 @@ class _HomePageState extends State<HomePage> {
                       ),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
+                          minimumSize: Size(6, 6),
                           primary: Colors.black87,
                         ),
                         onPressed: () {
@@ -150,7 +151,19 @@ class _HomePageState extends State<HomePage> {
 
                           cart.addTotalPrice(productPrice[index].toDouble());
                         },
-                        child: Text("Add to cart"),
+                        child: Text("+"),
+                      ),
+                      ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          minimumSize: Size(6, 6),
+                          primary: Colors.black87,
+                        ),
+                        onPressed: () {
+                          cartList.removeProduct(productName[index]);
+                          cart.removeCounter();
+                          cart.removeTotalPrice(productPrice[index].toDouble());
+                        },
+                        child: Text("-"),
                       ),
                     ],
                   ),
