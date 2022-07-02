@@ -6,6 +6,7 @@ import 'package:provider_functions/cart_provider.dart';
 import 'package:provider_functions/cart_items_price.dart';
 import 'package:provider_functions/cartlist_provider.dart';
 import 'package:provider_functions/db_helper.dart';
+import 'package:provider_functions/theme_mode.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -57,6 +58,7 @@ class _HomePageState extends State<HomePage> {
 
     final cart = Provider.of<CartProvider>(context);
     final cartList = Provider.of<CartList>(context);
+    final themeChanger = Provider.of<ThemeChanger>(context);
 
     //print(cart.selectedProducts());
 
@@ -76,12 +78,14 @@ class _HomePageState extends State<HomePage> {
         actions: [
           InkWell(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => CartScreen()));
+              if (cart.counter > 0) {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => CartScreen()));
+              }
             },
             child: Center(
               child: Badge(
-                badgeContent: Text("${cart.counter}"),
+                badgeContent: Text("${cartList.selectedProduct.length}"),
                 badgeColor: Colors.white,
                 borderSide: BorderSide.none,
                 animationDuration: Duration(milliseconds: 300),
@@ -95,7 +99,7 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
             child: ListView.builder(
@@ -105,7 +109,7 @@ class _HomePageState extends State<HomePage> {
                   color: Colors.white,
                   elevation: 0.0,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(index.toString()),
                       SizedBox(
@@ -159,9 +163,14 @@ class _HomePageState extends State<HomePage> {
                           primary: Colors.black87,
                         ),
                         onPressed: () {
-                          cartList.removeProduct(productName[index]);
-                          cart.removeCounter();
-                          cart.removeTotalPrice(productPrice[index].toDouble());
+                          if (cartList.selectedProduct.isNotEmpty) {
+                            cartList.removeProduct(productName[index]);
+                            cart.removeCounter();
+                            cart.removeTotalPrice(
+                                productPrice[index].toDouble());
+                          } else {
+                            cartList.addProduct(productName[index]);
+                          }
                         },
                         child: Text("-"),
                       ),
@@ -170,8 +179,34 @@ class _HomePageState extends State<HomePage> {
                 );
               },
             ),
-          )
+          ),
         ],
+      ),
+      drawer: Drawer(
+        child: Padding(
+          padding: const EdgeInsets.only(top: 50.0),
+          child: Column(
+            children: [
+              RadioListTile(
+                  title: Text("Light Theme"),
+                  value: ThemeMode.light,
+                  groupValue: themeChanger.themeMode,
+                  onChanged: themeChanger.setTheme),
+              //
+              RadioListTile(
+                  title: Text("Dark Theme"),
+                  value: ThemeMode.dark,
+                  groupValue: themeChanger.themeMode,
+                  onChanged: themeChanger.setTheme),
+              //
+              RadioListTile(
+                  title: Text("Default Theme"),
+                  value: ThemeMode.system,
+                  groupValue: themeChanger.themeMode,
+                  onChanged: themeChanger.setTheme),
+            ],
+          ),
+        ),
       ),
     );
   }
